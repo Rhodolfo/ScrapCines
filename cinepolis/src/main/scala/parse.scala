@@ -36,8 +36,6 @@ object CinepolisParse {
     for {e <- json} yield {e.extract[Cinema]}
   }
 
-  def parseComplex(body: String): Complex = {
-    (parse(body) \ "d" \ "datos_complejo").extract[Complex]
-  }
+  def parseComplex(body: String): Complex = (parse(body) \ "d" \ "datos_complejo").extract[Complex]
 
 }

@@ -35,18 +35,18 @@ object CinepolisHTTP {
     val json = "{\"claveCiudad\":\""+zone+"\",\"esVIP\":false}"
     val post = constructPOST(json, cinemasPath)
     System.out.println(prefix+"Fetching Cinemas for zone "+zone)
-    val list = parseCinemas(client.doRequest(post))
+    val body = client.doRequest(post)
     System.out.println(prefix+"Done")
-    list
+    parseCinemas(body)
   }
 
   def getComplex(cinema: Cinema): Complex = {
     val json = "{\"idComplejo\":"+cinema.Id+",\"HijosComplejo\":\"\"}"
     val post = constructPOST(json, complexPath)
     System.out.println(prefix+"Fetching complex for "+cinema.Id+": "+cinema.Name)
-    val comp = parseComplex(client.doRequest(post))
+    val body = client.doRequest(post)
     System.out.println(prefix+"Done")
-    comp
+    parseComplex(body)
   }
 
 }
