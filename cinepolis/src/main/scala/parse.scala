@@ -5,9 +5,23 @@ object CinepolisParse {
   import com.rho.client.RhoClient
   import scala.util.matching.Regex
   import net.liftweb.json._
-  import com.rho.scrap.CinepolisClasses.{Cinema}
+  import com.rho.scrap.CinepolisClasses.{Cinema,Complex}
 
   implicit val formats = DefaultFormats
+
+  private def changeKeys(body: String): String = {
+    def iter(list: List[(String,String)], acc: String): String = {
+      if (list.isEmpty) acc
+      else {
+        val (key,newKey) = list.head
+        iter(list.tail, new Regex(key) replaceAllIn(acc,newKey))
+      }
+    }
+    val keyList = List(
+      ("Id","id"), ("Key","key"), ("Name","name"),
+      ("Citykey","cityKey"), ("Cityname","cityName"))
+    iter(keyList, body)
+  }
 
   def parseZones(body: String): List[String] = {
     val list = (new Regex("id=.cmbCiudades.+?</select>") findFirstIn body) match {
@@ -18,16 +32,12 @@ object CinepolisParse {
   }
 
   def parseCinemas(body: String): List[Cinema] = {
-    for {
-      result @ JObject(x) <- (parse(body) \ "d" \ "Cinemas")
-      JField("CityKey",JString(cityKey)) <- result.obj
-      JField("CityName",JString(cityName)) <- result.obj
-      JField("Id",JInt(id)) <- result.obj
-      JField("Key",JString(key)) <- result.obj
-      JField("Name",JString(name)) <- result.obj
-    } yield {
-      Cinema(cityKey, cityName, id.toInt, key, name)
-    }
+    val json = (parse(body) \ "d" \ "Cinemas").children
+    for {e <- json} yield {e.extract[Cinema]}
+  }
+
+  def parseComplex(body: String): Complex = {
+    (parse(body) \ "d" \ "datos_complejo").extract[Complex]
   }
 
 }

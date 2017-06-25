@@ -1,6 +1,6 @@
 // External Github dependencies
 val ClientVer = "v1.1"
-val FUtilsVer = "v1.1"
+val FUtilsVer = "v1.2"
 lazy val ClientLoc = "https://github.com/Rhodolfo/RhoClient.git#%s".format(ClientVer)
 lazy val FUtilsLoc = "https://github.com/Rhodolfo/RhoFileUtils.git#%s".format(FUtilsVer)
 lazy val rhoClient = RootProject(uri(ClientLoc))
