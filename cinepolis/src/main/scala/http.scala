@@ -11,7 +11,7 @@ object CinepolisHTTP {
 
   val scheme = "http"
   val host = "www.cinepolis.com"
-  val client = new RhoClient(Scheme="http",Host=host)
+  val client = new RhoClient(Scheme=scheme,Host=host)
   val optionsPath = "/cartelera/cdmx-centro/"
   val cinemasPath = "/Cartelera.aspx/GetNowPlayingByCity"
   val complexPath = "/Cartelera.aspx/ObtenerInformacionComplejo"

@@ -2,7 +2,6 @@ package com.rho.scrap
 
 object CinepolisParse {
   
-  import com.rho.client.RhoClient
   import scala.util.matching.Regex
   import net.liftweb.json._
   import com.rho.scrap.CinepolisClasses.{Cinema,Complex}
